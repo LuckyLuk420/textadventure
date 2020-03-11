@@ -2,7 +2,7 @@ rooms_dict = {
     "bedroom": {
         "flavor": "You wake up in your apartment. You feel hung over and hungry.\n"
                   "Let's get ready and grab some food at the store.\n"
-                  "Your phone lies on your desk next to  you're laptop. You left it there to charge over night.\n"
+                  "Your phone lies on your desk next to  your laptop. You left it there to charge over night.\n"
                   "You gaze over your small bedroom. There's not much in it.\n"
                   "Your most priced possession: A closet filled with comics.\n"
                   "Next to it is your desk, between them the door.\n"
@@ -124,7 +124,7 @@ rooms_dict = {
 
 class Room:
     def __init__(self, name, flavor, items):
-        self.commands = ["inspect", "interact", "quit"]
+        self.commands = ["inspect", "interact", "menu"]
         self.name = name
         self.flavor = flavor
         self.items = items
@@ -190,7 +190,7 @@ class Container(Item):
         super().__init__(inspect, interact)
         self.name = name
         self.items = items
-        self.commands = ["inspect", "interact", "back", "quit"]
+        self.commands = ["inspect", "interact", "back", "menu"]
 
     def interact(self):
         print(self.response)
@@ -375,9 +375,23 @@ rooms_list = {
 cur_item = []
 room = ["bedroom"]
 running = True
+howto = "How to play:\n After each text sequence you are presented with\n[Objects in the room]\n[Commands]\n"\
+        "Please choose first a command and then an object to perform it on.\n"\
+        "Type them in that order in a single line and confirm with 'Enter'.\nDid you really need that, Einstein?\n\n"
 
-while running:
-    if type(rooms_list[room[-1]]) is Room:
-        rooms_list[room[-1]].flavortext()
+while True:
+    print("\nText Adventure by Lucky Luk\n\n")
+    menu_input = input("[play, quit]\n> ")
+    if menu_input == "play":
+        while running:
+            if type(rooms_list[room[-1]]) is Room:
+                rooms_list[room[-1]].flavortext()
+            else:
+                rooms_list[room[-1]].interact()
+    elif menu_input == "help":
+        print(howto)
+    elif menu_input == "quit":
+        print("See you later, alligator!")
+        break
     else:
-        rooms_list[room[-1]].interact()
+        print("Error 404: Command not found!\nYou're doing you're best")
